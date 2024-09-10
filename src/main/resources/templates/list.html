@@ -10,15 +10,9 @@
 <div th:replace="~{nav.html :: navbar}"></div>
 
 <div class="card" th:each="i : ${stocks}">
-    <img src="https://placehold.co/300">
+    <img src="https://placehold.co/150">
     <div>
         <a th:text="${i.symbol}">Symbol</a>
-<!--        <p>가격: <span th:text="${i.price}">00.00$</span></p>-->
-<!--        <p>변화율: <span th:text="${i.change}">00.00%</span></p>-->
-        <div>
-            <a>✏️</a>
-            <span>🗑️</span>
-        </div>
     </div>
 </div>
 

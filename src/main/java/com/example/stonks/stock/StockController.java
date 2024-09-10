@@ -21,7 +21,7 @@ public class StockController {
     @GetMapping("/stock/list")
     public String stockList(Model model) {
 
-        List<Stock> result = stockRepository.getStockList();
+        List<Stock> result = stockRepository.findAll();
         model.addAttribute("stocks", result);
 
         return "list.html";
@@ -33,7 +33,7 @@ public class StockController {
     @PostMapping("/stock")
     public String stock(Model model, @RequestParam String symbol) {
 
-        Stock stock = stockService.getLatestStockBySymbol(symbol);
+        StockDto stock = stockService.getLatestStockDto(symbol);
         model.addAttribute("stock", stock);
 
         return "stock.html";
