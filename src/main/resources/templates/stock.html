@@ -3,11 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>STOCK</title>
-    <link rel="stylesheet" href="../static/main.css">
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
 
 <div th:replace="~{nav.html :: navbar}"></div>
+
+<div class="detail" th:item="${stock}">
+    <!--    상품 상세 정보-->
+    <div>
+        <h4>상세페이지</h4>
+        <img src="https://placehold.co/300">
+        <h4 th:text="${stock.symbol}">티커티커</h4>
+        <p>price: <span th:text="${stock.price + '$'}">가격가격</span></p>
+        <p>change: <span th:text="${stock.changePercentage}">변동변동</span></p>
+        <p>volume: <span th:text="${stock.volume}">볼륨볼륨</span></p>
+        <p>date: <span th:text="${stock.date}">날짜날짜</span></p>
+    </div><br><br><br>
+
+    <!--  주문  -->
+<!--    <div class="order" sec:authorize="isAuthenticated()">-->
+<!--        <form action="/order" method="post">-->
+<!--            <input type="number" name="count" min="1" max="10" placeholder="수량">-->
+<!--            <input name="itemId" style="display: none" th:value="${data.id}">-->
+<!--            <button type="submit">주문</button>-->
+<!--        </form>-->
+<!--    </div><br>-->
+
+    <!-- 댓글 달기-->
+<!--    <div class="comment" sec:authorize="isAuthenticated()">-->
+<!--        <form action="/comment" method="POST">-->
+<!--            <input type="text" name="content" placeholder="Comment...">-->
+<!--            <input style="display:none" name="parentId" th:value="${data.id}">-->
+<!--            <button type="submit">등록</button>-->
+<!--        </form>-->
+<!--    </div>-->
+</div>
 
 </body>
 </html>
