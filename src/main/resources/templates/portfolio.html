@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+
+<div th:replace="~{nav.html :: navbar}"></div>
+
+<div>
+    <!--포트폴리오 선택하는 구역-->
+</div>
+
+<div>
+    <!--포트폴리오 개요: 총 자산, 수익률 등등-->
+</div>
+<div class="container">
+    <!-- 포트폴리오 정보 -->
+    <div>
+        <h2>My Portfolio : <span th:text="${portfolio.name}"></span></h2>
+        <p>Member ID: <span th:text="${portfolio.memberId}"></span></p>
+    </div>
+
+    <!-- 주식 정보 -->
+    <h3>포트폴리오 구성</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>티커명</th>
+            <th>단가</th>
+            <th>수량</th>
+            <th>삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 주식 목록 출력 -->
+        <tr th:each="portfolioStock : ${portfolio.portfolioStocks}">
+            <td th:text="${portfolioStock.stock.symbol}"></td>
+            <td th:text="${portfolioStock.purchasePrice} + '$'"></td>
+            <td th:text="${portfolioStock.quantity}"></td>
+            <td>
+                <!-- 삭제 버튼 -->
+                <form action="/portfolio/stock" th:method="delete">
+                    <input type="hidden" name="id" th:value="${portfolioStock.id}"/>
+                    <button type="submit">🗑️</button>
+                </form>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <!-- 주식 추가 폼 -->
+    <h3>주식 추가하기</h3>
+    <form action="/portfolio/add-stock" method="post">
+        <p>티커 <input type="text" name="symbol"></p>
+        <p>가격 <input type="text" name="purchasePrice"></p>
+        <p>수량 <input type="text" name="quantity"></p>
+        <input type="hidden" name="id" th:value="${portfolio.id}">
+        <button type="submit">추가</button>
+    </form>
+
+</div>
+
+</body>
+</html>
