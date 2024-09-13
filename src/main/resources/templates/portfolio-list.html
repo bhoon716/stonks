@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Portfolio List</title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+
+<div th:replace="~{nav.html :: navbar}"></div>
+
+<div class="container">
+    <h1>Your Portfolios</h1>
+
+    <!-- 포트폴리오 목록 -->
+    <table>
+        <thead>
+        <tr>
+            <th>Portfolio ID</th>
+            <th>Member ID</th>
+            <th>Portfolio Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 포트폴리오 목록 출력 -->
+        <tr th:each="portfolio : ${portfolios}">
+            <td th:text="${portfolio.id}"></td>
+            <td th:text="${portfolio.memberId}"></td>
+            <td>
+                <a th:text="${portfolio.name}" th:href="@{'/portfolio/' + ${portfolio.id}}">
+                    PortfolioName
+                </a>
+            </td>
+            <td>
+                <!-- 수정 버튼 -->
+                <button onclick="showEditForm(0)">
+                    ✏️
+                </button>
+
+                <!-- 삭제 버튼 -->
+                <form method="post" style="display:inline;">
+                    <input type="hidden" name="_method" value="delete"/>
+                    <button type="submit" onclick="location.reload()">🗑️</button>
+                </form>
+
+                <!-- 포트폴리오 상세보기 -->
+                <a>
+                    View Details
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <hr>
+
+    <!-- 포트폴리오 수정 폼 (숨겨져 있음) -->
+    <div id="edit-form" style="display:none;">
+        <h3>Edit Portfolio</h3>
+        <form>
+            <input type="hidden" id="edit-portfolio-id" name="portfolioId">
+
+            <label for="edit-memberId">Member ID:</label>
+            <input type="number" id="edit-memberId" name="memberId" required>
+
+            <button type="submit">Update Portfolio</button>
+        </form>
+    </div>
+
+    <!-- 포트폴리오 추가 폼 -->
+    <h3>Add New Portfolio</h3>
+    <form action="/portfolio/add" method="POST">
+        <span>Portfolio Name <input type="text" name="portfolioName"></span>
+        <button type="submit">Add</button>
+    </form>
+    <hr>
+
+    <script>
+        // 수정 폼을 표시하고, 선택된 포트폴리오 데이터를 입력
+        function showEditForm(id) {
+            document.getElementById('edit-form').style.display = 'block';
+            document.getElementById('edit-portfolio-id').value = id;
+            // 필요한 경우, memberId도 추가 설정
+        }
+    </script>
+</div>
+
+</body>
+</html>

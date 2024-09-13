@@ -1,5 +1,6 @@
 package com.example.stonks.stock;
 
+import com.example.stonks.portfolio.portfolioStock.PortfolioStock;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import jakarta.annotation.PostConstruct;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -74,5 +76,13 @@ public class StockService {
         }
 
         return stockDto;
+    }
+
+    public Optional<Stock> findStockBySymbol(String symbol) {
+        return stockRepository.findBySymbol(symbol);
+    }
+
+    public Double getCurrentPrice(PortfolioStock portfolioStock){
+         return getLatestStockDto(portfolioStock.getStock().getSymbol()).getPrice();
     }
 }

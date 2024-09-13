@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+
+<div th:replace="~{nav.html :: navbar}"></div>
+
+<div>
+    <!--포트폴리오 선택하는 구역-->
+</div>
+
+<div>
+    <!--포트폴리오 개요: 총 자산, 수익률 등등-->
+</div>
+<div class="container">
+    <!-- 포트폴리오 정보 -->
+    <div>
+        <h2>My Portfolio : <span th:text="${customPortfolio.name}"></span></h2>
+        <p>Member ID: <span th:text="${customPortfolio.memberId}"></span></p>
+    </div>
+
+    <!-- 주식 정보 -->
+    <h3>포트폴리오 구성</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>심볼</th>
+            <th>보유 수량</th>
+            <th>평가 금액</th>
+            <th>평가 손익</th>
+            <th>수익률</th>
+            <th>비중</th>
+            <th>삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 주식 목록 출력 -->
+        <tr th:each="customPortfolioStock : ${customPortfolio.customPortfolioStockList}">
+            <!-- 티커명 -->
+            <td th:text="${customPortfolioStock.stock.symbol}"></td>
+            <!-- 수량 -->
+            <td th:text="${customPortfolioStock.quantity}"></td>
+            <!-- 평가금: 현재 가격 * 수량 -->
+            <td th:text="${customPortfolioStock.currentPrice * customPortfolioStock.quantity} + ' $'"></td>
+            <!-- 평가손익: (현재 가격 - 구매 가격) * 수량 -->
+            <td th:text="${customPortfolioStock.valuationGainLoss}"></td>
+            <!-- 수익률: (현재 가격 - 구매 가격) / 구매 가격 * 100 -->
+            <td th:text="${customPortfolioStock.gainLossPercentage}"></td>
+            <td th:text="${customPortfolioStock.ratio}"></td>
+            <!-- 삭제 버튼 -->
+            <td>
+                <form action="/portfolio/stock" th:method="delete">
+                    <input type="hidden" name="id" th:value="${customPortfolioStock.id}"/>
+                    <button type="submit">🗑️</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <div>
+        총 평가금액: <p th:text="${customPortfolio.totalAssets}"></p>
+        총 손익: <p th:text="${customPortfolio.totalValuationGainLoss}"></p>
+        총 수익률: <p th:text="${customPortfolio.totalGainLossPercentage}"></p>
+    </div>
+
+    <!-- 주식 추가 폼 -->
+    <h3>주식 추가하기</h3>
+    <form action="/portfolio/add-stock" method="post">
+        <p>심볼 <input type="text" name="symbol"></p>
+        <p>평균구매단가 <input type="text" name="purchasePrice"></p>
+        <p>보유 수량 <input type="text" name="quantity"></p>
+        <input type="hidden" name="id" th:value="${customPortfolio.id}">
+        <button type="submit">추가</button>
+    </form>
+
+</div>
+
+</body>
+</html>
