@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,5 +23,5 @@ public class Portfolio {
             mappedBy = "portfolio",
             fetch = FetchType.LAZY
     )
-    private Set<PortfolioStock> portfolioStocks;
+    private List<PortfolioStock> portfolioStocks;
 }

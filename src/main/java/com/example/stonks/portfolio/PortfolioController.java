@@ -16,8 +16,8 @@ public class PortfolioController {
     @GetMapping("/portfolio/{id}")
     public String getPortfolio(@PathVariable Long id, Model model) {
 
-        Portfolio portfolio = portfolioService.findPortfolioById(id);
-        model.addAttribute("portfolio", portfolio);
+        CustomPortfolio customPortfolio = portfolioService.getCustomPortfolio(id);
+        model.addAttribute("customPortfolio", customPortfolio);
 
         return "portfolio.html";
     }
