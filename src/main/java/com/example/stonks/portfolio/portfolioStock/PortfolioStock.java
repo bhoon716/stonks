@@ -9,6 +9,9 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@Table(
+        uniqueConstraints = @UniqueConstraint(columnNames = {"portfolio_id", "stock_id"})
+)
 public class PortfolioStock {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

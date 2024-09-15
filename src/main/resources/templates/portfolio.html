@@ -29,9 +29,11 @@
         <thead>
         <tr>
             <th>심볼</th>
-            <th>보유 수량</th>
-            <th>평가 금액</th>
-            <th>평가 손익</th>
+            <th>현재가격</th>
+            <th>구매가격</th>
+            <th>보유수량</th>
+            <th>평가금액</th>
+            <th>평가손익</th>
             <th>수익률</th>
             <th>비중</th>
             <th>삭제</th>
@@ -42,6 +44,8 @@
         <tr th:each="customPortfolioStock : ${customPortfolio.customPortfolioStockList}">
             <!-- 티커명 -->
             <td th:text="${customPortfolioStock.stock.symbol}"></td>
+            <td th:text="${customPortfolioStock.currentPrice}"></td>
+            <td th:text="${customPortfolioStock.purchasePrice}"></td>
             <!-- 수량 -->
             <td th:text="${customPortfolioStock.quantity}"></td>
             <!-- 평가금: 현재 가격 * 수량 -->
@@ -54,7 +58,8 @@
             <!-- 삭제 버튼 -->
             <td>
                 <form action="/portfolio/stock" th:method="delete">
-                    <input type="hidden" name="id" th:value="${customPortfolioStock.id}"/>
+                    <input type="hidden" name="portfolioStockId" th:value="${customPortfolioStock.id}"/>
+                    <input type="hidden" name="portfolioId" th:value="${customPortfolio.id}"/>
                     <button type="submit">🗑️</button>
                 </form>
             </td>

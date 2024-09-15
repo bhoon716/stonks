@@ -33,7 +33,7 @@ public class StockController {
     @PostMapping("/stock")
     public String stock(Model model, @RequestParam String symbol) {
 
-        StockDto stock = stockService.getLatestStockDto(symbol);
+        StockDto stock = CsvService.getLatestStockDto(symbol);
         model.addAttribute("stock", stock);
 
         return "stock.html";
