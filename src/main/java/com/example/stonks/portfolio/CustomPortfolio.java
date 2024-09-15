@@ -2,6 +2,7 @@ package com.example.stonks.portfolio;
 
 import com.example.stonks.portfolio.portfolioStock.CustomPortfolioStock;
 import com.example.stonks.portfolio.portfolioStock.PortfolioStock;
+import com.example.stonks.stock.CsvService;
 import com.example.stonks.stock.StockService;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,54 +20,50 @@ public class CustomPortfolio {
     private Long id;
     private String name;
     private Long memberId;
-    private List<CustomPortfolioStock> customPortfolioStockList = new ArrayList<>();
+    private List<PortfolioStock> portfolioStockList;
 
-    private Double totalAssets = 0.0;
+    private Double totalAssets;
     private Double totalPurchasePrice = 0.0;
     private Double totalValuationGainLoss;
     private String totalGainLossPercentage;
+    private List<CustomPortfolioStock> customPortfolioStockList;
 
-    private final StockService stockService;
-
-    // 생성자에서 가격 데이터를 캐시
-    private Map<String, Double> priceCache = new HashMap<>();
-
-    public CustomPortfolio(Portfolio portfolio, StockService stockService) {
+    public CustomPortfolio(Portfolio portfolio){
         this.id = portfolio.getId();
         this.name = portfolio.getName();
         this.memberId = portfolio.getMemberId();
-        this.stockService = stockService;
+        this.portfolioStockList = portfolio.getPortfolioStockList();
 
-        // 포트폴리오 내의 주식을 처리
-        for (PortfolioStock portfolioStock : portfolio.getPortfolioStocks()) {
-            Double currentPrice = getCurrentPriceWithCache(portfolioStock);
-            CustomPortfolioStock customPortfolioStock = new CustomPortfolioStock(portfolioStock, currentPrice);
-            this.totalAssets += customPortfolioStock.getCurrentPrice() * customPortfolioStock.getQuantity();
-            this.totalPurchasePrice += customPortfolioStock.getPurchasePrice() * customPortfolioStock.getQuantity();
-            customPortfolioStockList.add(customPortfolioStock);
-        }
+        this.totalAssets = calculateTotalAssets();
+        this.totalPurchasePrice = calculateTotalPurchasePrice();
+        this.totalValuationGainLoss = totalAssets - totalPurchasePrice;
+        this.totalGainLossPercentage =  totalValuationGainLoss / totalPurchasePrice * 100 + "%";
 
-        // 평가손익 및 수익률 계산
-        this.totalValuationGainLoss = this.totalAssets - this.totalPurchasePrice;
-        this.totalGainLossPercentage = formatPercentage(this.totalValuationGainLoss / this.totalPurchasePrice * 100);
-
-        // 비율 계산
-        if (this.totalAssets != 0) {
-            for (CustomPortfolioStock cuPortfolioStock : customPortfolioStockList) {
-                cuPortfolioStock.setRatio((cuPortfolioStock.getCurrentPrice() * cuPortfolioStock.getQuantity()) / this.totalAssets * 100);
-            }
-        }
+        this.customPortfolioStockList = getCustomPortfolioStockList(portfolioStockList);
     }
 
-    // 주식 가격을 캐싱하여 중복 호출 방지
-    private Double getCurrentPriceWithCache(PortfolioStock portfolioStock) {
-        String symbol = portfolioStock.getStock().getSymbol();
-        return priceCache.computeIfAbsent(symbol, s -> stockService.getCurrentPrice(portfolioStock));
+    private Double calculateTotalAssets(){
+        Double sum = 0.0;
+        for(PortfolioStock portfolioStock : portfolioStockList){
+            sum += (CsvService.getLatestPrice(portfolioStock.getStock().getSymbol()) * portfolioStock.getQuantity());
+        }
+        return sum;
     }
 
-    // 퍼센트 형식 지정 (소수점 2자리까지)
-    private String formatPercentage(Double value) {
-        DecimalFormat df = new DecimalFormat("#.##");
-        return df.format(value) + "%";
+    private Double calculateTotalPurchasePrice() {
+        Double sum = 0.0;
+        for(PortfolioStock portfolioStock : portfolioStockList){
+            sum += (portfolioStock.getPurchasePrice() * portfolioStock.getQuantity());
+        }
+        return sum;
+    }
+
+    public List<CustomPortfolioStock> getCustomPortfolioStockList(List<PortfolioStock> portfolioStockList) {
+        List<CustomPortfolioStock> customPortfolioStocks= new ArrayList<>();
+        for(PortfolioStock portfolioStock : portfolioStockList){
+            CustomPortfolioStock customPortfolioStock = new CustomPortfolioStock(portfolioStock, totalAssets);
+            customPortfolioStocks.add(customPortfolioStock);
+        }
+        return customPortfolioStocks;
     }
 }

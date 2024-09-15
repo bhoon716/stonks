@@ -60,13 +60,28 @@ public class PortfolioController {
         return "redirect:/portfolio/list";
     }
 
+    @PostMapping("/portfolio/change-name")
+    public String changePortfolioName(@RequestParam Long portfolioId, @RequestParam String nameToChange) {
+        portfolioService.changePortfolioName(portfolioId, nameToChange);
+
+        return "redirect:/portfolio/list";
+    }
+
     // DeleteMapping -----------------------------------------
 
+    @DeleteMapping("/portfolio")
+    public String deletePortfolio(@RequestParam Long portfolioId){
+
+        portfolioService.deletePortfolio(portfolioId);
+
+        return "redirect:/portfolio/list";
+    }
+
     @DeleteMapping("/portfolio/stock")
-    public String deletePortfolioStock(@RequestParam Long id){
+    public String deletePortfolioStock(@RequestParam Long portfolioStockId, @RequestParam Long portfolioId) {
 
-        portfolioService.deleteStockFromPortfolio(id);
+        portfolioService.deleteStockFromPortfolio(portfolioStockId);
 
-        return "redirect:/portfolio/"+id;
+        return "redirect:/portfolio/" + portfolioId;
     }
 }

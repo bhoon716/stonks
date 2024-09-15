@@ -1,6 +1,7 @@
 package com.example.stonks.portfolio.portfolioStock;
 
 import com.example.stonks.portfolio.Portfolio;
+import com.example.stonks.stock.CsvService;
 import com.example.stonks.stock.Stock;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,31 +15,24 @@ public class CustomPortfolioStock {
     private Stock stock;
     private Double purchasePrice;
     private Integer quantity;
+
     private Double currentPrice;
-    private Double ratio;
     private Double valuationGainLoss;
     private String gainLossPercentage;
+    private String ratio;
 
-    public CustomPortfolioStock(PortfolioStock portfolioStock, Double currentPrice) {
+    public CustomPortfolioStock(PortfolioStock portfolioStock, Double portfolioTotalAssets) {
         this.id = portfolioStock.getId();
         this.portfolio = portfolioStock.getPortfolio();
         this.stock = portfolioStock.getStock();
         this.purchasePrice = portfolioStock.getPurchasePrice();
         this.quantity = portfolioStock.getQuantity();
-        this.currentPrice = currentPrice;
-        this.valuationGainLoss = currentPrice - purchasePrice;
-        this.gainLossPercentage = (valuationGainLoss) / purchasePrice * 100 + "%";
+
+        this.currentPrice = CsvService.getLatestPrice(stock.getSymbol());
+        this.valuationGainLoss = (currentPrice - purchasePrice) * quantity;
+        this.gainLossPercentage = (currentPrice - purchasePrice) / purchasePrice * 100 + "%";
+        this.ratio = (currentPrice * quantity) / portfolioTotalAssets * 100 + "%";
     }
 
-    public CustomPortfolioStock(PortfolioStock portfolioStock, Double currentPrice, Double ratio) {
-        this.id = portfolioStock.getId();
-        this.portfolio = portfolioStock.getPortfolio();
-        this.stock = portfolioStock.getStock();
-        this.purchasePrice = portfolioStock.getPurchasePrice();
-        this.quantity = portfolioStock.getQuantity();
-        this.currentPrice = currentPrice;
-        this.ratio = ratio;
-        this.valuationGainLoss = currentPrice - purchasePrice;
-        this.gainLossPercentage = (valuationGainLoss) / purchasePrice * 100 + "%";
-    }
+
 }

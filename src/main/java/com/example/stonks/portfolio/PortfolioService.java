@@ -33,7 +33,7 @@ public class PortfolioService {
         }
 
         Portfolio portfolio = portfolioOpt.get();
-        return new CustomPortfolio(portfolio, stockService);
+        return new CustomPortfolio(portfolio);
     }
 
     @Transactional
@@ -85,5 +85,15 @@ public class PortfolioService {
         portfolioStockService.deleteStockById(id);
     }
 
+    public void changePortfolioName(Long id, String portfolioName){
 
+        Portfolio portfolio = portfolioRepository.findById(id).get();
+        portfolio.setName(portfolioName);
+        portfolioRepository.save(portfolio);
+    }
+
+    public void deletePortfolio(Long portfolioId) {
+
+        portfolioRepository.deleteById(portfolioId);
+    }
 }

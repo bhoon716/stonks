@@ -19,7 +19,7 @@
             <th>Portfolio ID</th>
             <th>Member ID</th>
             <th>Portfolio Name</th>
-            <th>Actions</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -28,44 +28,29 @@
             <td th:text="${portfolio.id}"></td>
             <td th:text="${portfolio.memberId}"></td>
             <td>
-                <a th:text="${portfolio.name}" th:href="@{'/portfolio/' + ${portfolio.id}}">
-                    PortfolioName
-                </a>
+                <a th:text="${portfolio.name}" th:href="@{'/portfolio/' + ${portfolio.id}}"></a>
             </td>
             <td>
                 <!-- 수정 버튼 -->
-                <button onclick="showEditForm(0)">
-                    ✏️
-                </button>
+                <button onclick="showEditForm()">✏️</button>
 
-                <!-- 삭제 버튼 -->
-                <form method="post" style="display:inline;">
-                    <input type="hidden" name="_method" value="delete"/>
-                    <button type="submit" onclick="location.reload()">🗑️</button>
+                <!--이름 변경 폼-->
+                <form action="/portfolio/change-name" method="post" id="edit-form" style="display: none">
+                    <input type="text" name="nameToChange" style="display: inline">
+                    <input type="hidden" name="portfolioId" th:value="${portfolio.id}">
+                    <button type="submit" style="display: inline">이름 변경</button>
                 </form>
 
-                <!-- 포트폴리오 상세보기 -->
-                <a>
-                    View Details
-                </a>
+                <!-- 삭제 버튼 -->
+                <form action="/portfolio" th:method="delete" style="display:inline;">
+                    <input type="hidden" name="portfolioId" th:value="${portfolio.id}">
+                    <button type="submit">🗑️</button>
+                </form>
             </td>
         </tr>
         </tbody>
     </table>
     <hr>
-
-    <!-- 포트폴리오 수정 폼 (숨겨져 있음) -->
-    <div id="edit-form" style="display:none;">
-        <h3>Edit Portfolio</h3>
-        <form>
-            <input type="hidden" id="edit-portfolio-id" name="portfolioId">
-
-            <label for="edit-memberId">Member ID:</label>
-            <input type="number" id="edit-memberId" name="memberId" required>
-
-            <button type="submit">Update Portfolio</button>
-        </form>
-    </div>
 
     <!-- 포트폴리오 추가 폼 -->
     <h3>Add New Portfolio</h3>
@@ -74,16 +59,16 @@
         <button type="submit">Add</button>
     </form>
     <hr>
-
-    <script>
-        // 수정 폼을 표시하고, 선택된 포트폴리오 데이터를 입력
-        function showEditForm(id) {
-            document.getElementById('edit-form').style.display = 'block';
-            document.getElementById('edit-portfolio-id').value = id;
-            // 필요한 경우, memberId도 추가 설정
-        }
-    </script>
 </div>
+
+<script>
+    function showEditForm(){
+        let editForm = document.getElementById("edit-form");
+        if (editForm.style.display === "none") {
+            editForm.style.display = "inline-block";
+        }
+    }
+</script>
 
 </body>
 </html>
