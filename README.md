@@ -24,15 +24,19 @@
 6. 포트폴리오 평가
    1) 포트폴리오 올리면 ChatGPT가 평가 (TheRich 기능)
    2) 사람들간 서로 댓글, 추천 등을 남길 수 있음
-   
-### 비즈니스 모델
-* 구독 서비스 - 일부 기능은 월 구독료 납부해야만 사용 가능
-
-### Git 전략 - Github Flow
-* 참고: https://velog.io/@taeate/Github-flow-%EC%82%AC%EC%9A%A9%EB%B2%95-%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4
 
 ### 기술
 * Spring Boot
 * Java 17
 * MySQL
 * Github
+
+### 비즈니스 모델
+* 구독 서비스 - 일부 기능은 월 구독료 납부해야만 사용 가능
+
+### Git 전략 - Github Flow
+* 참고: https://velog.io/@taeate/Github-flow-%EC%82%AC%EC%9A%A9%EB%B2%95-%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4
+
+### 참고 자료
+* 주식 데이터: www.investing.com
+* 변동성 계산: https://swalloow.github.io/portfolio-basic/

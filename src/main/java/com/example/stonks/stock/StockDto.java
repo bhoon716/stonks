@@ -1,5 +1,6 @@
 package com.example.stonks.stock;
 
+import com.example.stonks.CsvService;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,20 +22,13 @@ public class StockDto {
 
     private String volume;
 
-    private String changePercentage;
+    private Double changePercentage;
 
-    public StockDto() {    }
+    private Double volatility;
 
-    public StockDto(String symbol, String date, Double price, String volume, String changePercentage){
-        this.symbol = symbol;
-        this.date = date;
-        this.price = price;
-        this.volume = volume;
-        this.changePercentage = changePercentage;
-    }
+    public StockDto() {}
 
-    public StockDto(String symbol, String date, Double price, Double open,
-                    Double high, Double low, String volume, String changePercentage) {
+    public StockDto(String symbol, String date, Double price, Double open, Double high, Double low, String volume, Double changePercentage) {
         this.symbol = symbol;
         this.date = date;
         this.price = price;
@@ -43,5 +37,6 @@ public class StockDto {
         this.low = low;
         this.volume = volume;
         this.changePercentage = changePercentage;
+        this.volatility = CsvService.calculateVolatility(symbol);
     }
 }

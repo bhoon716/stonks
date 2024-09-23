@@ -1,10 +1,12 @@
 package com.example.stonks.stock;
 
+import com.example.stonks.CsvService;
 import com.example.stonks.portfolio.portfolioStock.PortfolioStock;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,5 +27,9 @@ public class StockService {
 
     public Double getCurrentPrice(PortfolioStock portfolioStock){
          return CsvService.getLatestStockDto(portfolioStock.getStock().getSymbol()).getPrice();
+    }
+
+    public List<Stock> findAllStock() {
+        return stockRepository.findAll();
     }
 }
