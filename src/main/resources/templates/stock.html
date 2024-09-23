@@ -16,7 +16,7 @@
         <img src="https://placehold.co/300">
         <h4 th:text="${stock.symbol}">티커티커</h4>
         <p>price: <span th:text="${stock.price + '$'}">가격가격</span></p>
-        <p>change: <span th:text="${stock.changePercentage}">변동변동</span></p>
+        <p>change: <span th:text="${stock.changePercentage} + '%'">변동변동</span></p>
         <p>volume: <span th:text="${stock.volume}">볼륨볼륨</span></p>
         <p>date: <span th:text="${stock.date}">날짜날짜</span></p>
     </div><br><br><br>

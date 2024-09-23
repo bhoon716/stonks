@@ -35,7 +35,7 @@ public class PortfolioController {
     @PostMapping("/portfolio")
     public String createPortfolio() {
 
-        portfolioService.createPortfolio(0l, "name");
+        portfolioService.createPortfolio(0L, "name");
 
         return "portfolio.html";
     }

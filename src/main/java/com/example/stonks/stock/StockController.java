@@ -1,5 +1,6 @@
 package com.example.stonks.stock;
 
+import com.example.stonks.CsvService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StockController {
 
-    private final StockRepository stockRepository;
     private final StockService stockService;
 
     // GetMapping ----------------------------------------
@@ -21,7 +21,7 @@ public class StockController {
     @GetMapping("/stock/list")
     public String stockList(Model model) {
 
-        List<Stock> result = stockRepository.findAll();
+        List<Stock> result = stockService.findAllStock();
         model.addAttribute("stocks", result);
 
         return "list.html";

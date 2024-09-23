@@ -53,8 +53,8 @@
             <!-- 평가손익: (현재 가격 - 구매 가격) * 수량 -->
             <td th:text="${customPortfolioStock.valuationGainLoss}"></td>
             <!-- 수익률: (현재 가격 - 구매 가격) / 구매 가격 * 100 -->
-            <td th:text="${customPortfolioStock.gainLossPercentage}"></td>
-            <td th:text="${customPortfolioStock.ratio}"></td>
+            <td th:text="${customPortfolioStock.gainLossPercentage} + '%'"></td>
+            <td th:text="${customPortfolioStock.ratio} + '%'"></td>
             <!-- 삭제 버튼 -->
             <td>
                 <form action="/portfolio/stock" th:method="delete">
@@ -69,9 +69,11 @@
 
 
     <div>
-        총 평가금액: <p th:text="${customPortfolio.totalAssets}"></p>
-        총 손익: <p th:text="${customPortfolio.totalValuationGainLoss}"></p>
-        총 수익률: <p th:text="${customPortfolio.totalGainLossPercentage}"></p>
+        총 평가금액: <p th:text="${customPortfolio.totalAssets} + '$'"></p>
+        총 손익: <p th:text="${customPortfolio.totalValuationGainLoss} + '$'"></p>
+        총 수익률: <p th:text="${customPortfolio.totalGainLossPercentage} + '%'"></p>
+        변동성: <p th:text="${customPortfolio.volatility}"></p>
+        연 평균 수익률 <p th:text="${customPortfolio.compoundAnnualGrowthRate} + '%'"></p>
     </div>
 
     <!-- 주식 추가 폼 -->
